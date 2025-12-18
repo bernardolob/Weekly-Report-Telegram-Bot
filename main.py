@@ -29,7 +29,7 @@ WHITELIST: list[int] = [-5068062676]
 firstWarningTime  = TimeStructure(12, 00, (0,))
 secondWarningTime = TimeStructure(21, 00, (0,))
 # WeeklyReportTime  = TimeStructure( 8, 00, (1,))
-WeeklyReportTime  = TimeStructure( 12, 15, (3,))
+WeeklyReportTime  = TimeStructure( 1, 45, (4,))
 
 TOKEN: Final = '8084223298:AAF0bnTCct6D99FPHul1ezTse5cS7jLQFsM'
 BOT_USERNAME: Final = '@saobernardo_bot'
