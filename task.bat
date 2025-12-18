@@ -29,3 +29,5 @@ echo Killed Python >> .\logs\weekend.log
 REM --- Suspend ---
 echo Shutting Down >> .\logs\weekend.log
 
+shutdown /h
+
