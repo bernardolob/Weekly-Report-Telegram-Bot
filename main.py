@@ -21,15 +21,14 @@ logging.basicConfig(
 ################################ CONSTANTS ################################
 
 
-# WHITELIST: list[int] = [-1001279975882, -5068062676]
-WHITELIST: list[int] = [-5068062676]
+WHITELIST: list[int] = [-1001279975882, -5068062676]
+# WHITELIST: list[int] = [-5068062676]
 
 
 # DAYS:    0 - Sunday, 1 - Monday, ...  6 - Saturday
 firstWarningTime  = TimeStructure(12, 00, (0,))
 secondWarningTime = TimeStructure(21, 00, (0,))
-# WeeklyReportTime  = TimeStructure( 8, 00, (1,))
-WeeklyReportTime  = TimeStructure( 1, 45, (4,))
+WeeklyReportTime  = TimeStructure( 8, 00, (1,))
 
 TOKEN: Final = '8084223298:AAF0bnTCct6D99FPHul1ezTse5cS7jLQFsM'
 BOT_USERNAME: Final = '@saobernardo_bot'
