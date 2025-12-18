@@ -5,6 +5,16 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 from typing import Final
 from timeStructure import TimeStructure
 from sheetsReader import refresh_cache, getTWILList, getWeeklyReportMessage, getTWILResponsible
+import sys
+import signal
+import logging
+
+logging.basicConfig(
+    filename="logs/telegrambot.log",
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+)
+
 
 
 
@@ -65,6 +75,9 @@ STOP_MESSAGE: str = """
 
 ############################## AUX METHODS ##############################
 
+def shutdown_handler(signum, frame):
+    logging.info("Shutdown signal received. Exiting cleanly.")
+    sys.exit(0)
 
 def is_allowed_chat(update: Update) -> bool:
     return update.effective_chat.id in WHITELIST
@@ -106,21 +119,21 @@ def schedule_wr_jobs(job_queue, chat_id):
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    print("-----------")
-    print(datetime.now())
-    print("Help request.")
+    logging.info("-----------")
+    logging.info(datetime.now())
+    logging.info("Help request.")
     if (not is_allowed_chat(update)):
-        print(f"UNALLOWED CHAT: {update.effective_chat.id}")
+        logging.warning(f"UNALLOWED CHAT: {update.effective_chat.id}")
         return
     await update.message.reply_text(HELP_MESSAGE)
-    print(f'HELP : Id ({update.message.chat.id}) in {update.message.chat.type}')
+    logging.info(f'HELP : Id ({update.message.chat.id}) in {update.message.chat.type}')
 
 
 
 async def firstWarning_message(context: ContextTypes.DEFAULT_TYPE):
-    print("-----------")
-    print(datetime.now())
-    print("First warning message request.")
+    logging.info("-----------")
+    logging.info(datetime.now())
+    logging.info("First warning message request.")
     await refresh_cache()
     chat_id = context.job.chat_id
     await context.bot.send_message(
@@ -132,9 +145,9 @@ async def firstWarning_message(context: ContextTypes.DEFAULT_TYPE):
 
 
 async def secondWarning_message(context: ContextTypes.DEFAULT_TYPE):
-    print("-----------")
-    print(datetime.now())
-    print("Second warning message request.")
+    logging.info("-----------")
+    logging.info(datetime.now())
+    logging.info("Second warning message request.")
     await refresh_cache()
     chat_id = context.job.chat_id
     await context.bot.send_message(
@@ -146,9 +159,9 @@ async def secondWarning_message(context: ContextTypes.DEFAULT_TYPE):
 
 
 async def WR_message(context: ContextTypes.DEFAULT_TYPE, manual_chat_id=None):
-    print("-----------")
-    print(datetime.now())
-    print("Weekly Report message request.")
+    logging.info("-----------")
+    logging.info(datetime.now())
+    logging.info("Weekly Report message request.")
     await refresh_cache()
 
     chat_id = manual_chat_id or context.job.chat_id
@@ -164,11 +177,11 @@ async def WR_message(context: ContextTypes.DEFAULT_TYPE, manual_chat_id=None):
 
 
 async def stopWR(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    print("-----------")
-    print(datetime.now())
-    print("Stop WR request.")
+    logging.info("-----------")
+    logging.info(datetime.now())
+    logging.info("Stop WR request.")
     if (not is_allowed_chat(update)):
-        print(f"UNALLOWED CHAT: {update.effective_chat.id}")
+        logging.warning(f"UNALLOWED CHAT: {update.effective_chat.id}")
         return
     chat_id = update.message.chat_id
 
@@ -177,65 +190,65 @@ async def stopWR(update: Update, context: ContextTypes.DEFAULT_TYPE):
         job.schedule_removal()
 
     await update.message.reply_text(STOP_MESSAGE)
-    print(f'STOPWR : User ({update.message.chat.id}) in {update.message.chat.type}')
+    logging.info(f'STOPWR : User ({update.message.chat.id}) in {update.message.chat.type}')
 
 
 
 async def startWR(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    print("-----------")
-    print(datetime.now())
-    print("Start WR request.")
+    logging.info("-----------")
+    logging.info(datetime.now())
+    logging.info("Start WR request.")
     if (not is_allowed_chat(update)):
-        print(f"UNALLOWED CHAT: {update.effective_chat.id}")
+        logging.warning(f"UNALLOWED CHAT: {update.effective_chat.id}")
         return
     chat_id = update.message.chat_id
 
     schedule_wr_jobs(context.job_queue, chat_id)
 
     await update.message.reply_text(START_WR_MESSAGE, parse_mode="HTML")
-    print(f'STARTWR : User ({update.message.chat.id}) in {update.message.chat.type}')
+    logging.info(f'STARTWR : User ({update.message.chat.id}) in {update.message.chat.type}')
 
 
 
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    print("-----------")
-    print(datetime.now())
-    print(f'Update {update} caused error {context.error}')
+    logging.info("-----------")
+    logging.info(datetime.now())
+    logging.info(f'Update {update} caused error {context.error}')
 
 
 
 async def sendNow(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    print("-----------")
-    print(datetime.now())
-    print("Send now request.")
+    logging.info("-----------")
+    logging.info(datetime.now())
+    logging.info("Send now request.")
     if (not is_allowed_chat(update)):
-        print(f"UNALLOWED CHAT: {update.effective_chat.id}")
+        logging.warning(f"UNALLOWED CHAT: {update.effective_chat.id}")
         return
     chat_id = update.message.chat_id
     await WR_message(context, manual_chat_id=chat_id)
-    print(f'SENDNOW : User ({update.message.chat.id}) in {update.message.chat.type}')
+    logging.info(f'SENDNOW : User ({update.message.chat.id}) in {update.message.chat.type}')
 
 
 
 async def showTWILresponsible(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    print("-----------")
-    print(datetime.now())
-    print("Twil responsible request.")
+    logging.info("-----------")
+    logging.info(datetime.now())
+    logging.info("Twil responsible request.")
     if (not is_allowed_chat(update)):
-        print(f"UNALLOWED CHAT: {update.effective_chat.id}")
+        logging.warning(f"UNALLOWED CHAT: {update.effective_chat.id}")
         return
     await refresh_cache()
     await update.message.reply_text(TWIL_RESPONSIBLE_MESSAGE.format(twil_responsible=await getTWILResponsible()))
-    print(f'TWILRESPONSIBLE : User ({update.message.chat.id}) in {update.message.chat.type}')
+    logging.info(f'TWILRESPONSIBLE : User ({update.message.chat.id}) in {update.message.chat.type}')
 
 
 
 async def showTWILList(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    print("-----------")
-    print(datetime.now())
-    print("Twil list request.")
+    logging.info("-----------")
+    logging.info(datetime.now())
+    logging.info("Twil list request.")
     if (not is_allowed_chat(update)):
-        print(f"UNALLOWED CHAT: {update.effective_chat.id}")
+        logging.warning(f"UNALLOWED CHAT: {update.effective_chat.id}")
         return
     await refresh_cache()
     twil_list = await getTWILList()  # call the function
@@ -245,7 +258,7 @@ async def showTWILList(update: Update, context: ContextTypes.DEFAULT_TYPE):
         msg += f"- {m}\n"  # append each member
 
     await update.message.reply_text(msg)
-    print(f'LISTTWIL : User ({update.message.chat.id}) in {update.message.chat.type}')
+    logging.info(f'LISTTWIL : User ({update.message.chat.id}) in {update.message.chat.type}')
 
 
 
@@ -254,7 +267,7 @@ async def showTWILList(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 def main():
-    print('Starting bot...')
+    logging.info("Starting bot...")
     app = Application.builder().token(TOKEN).build()
 
     # Commands
@@ -276,8 +289,15 @@ def main():
         schedule_wr_jobs(app.job_queue, chat_id)
 
 
-    print('Polling...')
-    app.run_polling(poll_interval=3)
+    signal.signal(signal.SIGINT, shutdown_handler)
+    signal.signal(signal.SIGTERM, shutdown_handler)
+    try:
+        logging.info("Polling...")
+        app.run_polling(poll_interval=3)
+    except SystemExit:
+        logging.info("SystemExit called. Bot stopped.")
+    finally:
+        logging.info("Bot shutdown complete.")
 
 
 
@@ -303,7 +323,7 @@ if __name__ == '__main__':
 # async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 #     messageType: str = update.message.chat.type
 #     text: str = update.message.text
-#     print(f'User ({update.message.chat.id}) in {messageType}')
+#     logging.info(f'User ({update.message.chat.id}) in {messageType}')
 
 #     if messageType == 'group':
 #         if BOT_USERNAME in update.message.text:
@@ -315,5 +335,5 @@ if __name__ == '__main__':
 #     else:
 #         response: str = handle_response(text)
 #         await update.message.reply_text(response)
-#     print('bot: ', response)
+#     logging.info('bot: ', response)
 

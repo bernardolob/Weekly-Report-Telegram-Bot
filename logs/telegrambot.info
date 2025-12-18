@@ -1,0 +1,72 @@
+2025-12-18 01:12:13,525 [INFO] Starting bot...
+2025-12-18 01:12:17,810 [INFO] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-18 01:12:17,811 [INFO] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-18 01:12:17,812 [INFO] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-18 01:12:17,812 [INFO] Polling...
+2025-12-18 01:12:18,322 [INFO] HTTP Request: POST https://api.telegram.org/bot8084223298:AAF0bnTCct6D99FPHul1ezTse5cS7jLQFsM/getMe "HTTP/1.1 200 OK"
+2025-12-18 01:12:18,367 [INFO] HTTP Request: POST https://api.telegram.org/bot8084223298:AAF0bnTCct6D99FPHul1ezTse5cS7jLQFsM/deleteWebhook "HTTP/1.1 200 OK"
+2025-12-18 01:12:18,372 [INFO] Added job "-5068062676" to job store "default"
+2025-12-18 01:12:18,373 [INFO] Added job "-5068062676" to job store "default"
+2025-12-18 01:12:18,374 [INFO] Added job "-5068062676" to job store "default"
+2025-12-18 01:12:18,374 [INFO] Scheduler started
+2025-12-18 01:12:18,374 [INFO] Application started
+2025-12-18 01:12:18,517 [INFO] HTTP Request: POST https://api.telegram.org/bot8084223298:AAF0bnTCct6D99FPHul1ezTse5cS7jLQFsM/getUpdates "HTTP/1.1 200 OK"
+2025-12-18 01:12:18,520 [INFO] -----------
+2025-12-18 01:12:18,521 [INFO] 2025-12-18 01:12:18.521133
+2025-12-18 01:12:18,521 [INFO] Twil responsible request.
+2025-12-18 01:12:20,826 [INFO] Cache refreshed.
+2025-12-18 01:12:20,952 [INFO] HTTP Request: POST https://api.telegram.org/bot8084223298:AAF0bnTCct6D99FPHul1ezTse5cS7jLQFsM/sendMessage "HTTP/1.1 200 OK"
+2025-12-18 01:12:20,954 [INFO] TWILRESPONSIBLE : User (-5068062676) in group
+2025-12-18 01:12:33,972 [INFO] HTTP Request: POST https://api.telegram.org/bot8084223298:AAF0bnTCct6D99FPHul1ezTse5cS7jLQFsM/getUpdates "HTTP/1.1 200 OK"
+2025-12-18 01:12:42,859 [ERROR] Task was destroyed but it is pending!
+task: <Task pending name='Application:8084223298:update_fetcher' coro=<Application._update_fetcher() running at C:\Users\berna\AppData\Local\Programs\Python\Python314\Lib\site-packages\telegram\ext\_application.py:1233> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-12-18 01:12:42,873 [ERROR] Task was destroyed but it is pending!
+task: <Task pending name='Updater:start_polling:polling_task' coro=<network_retry_loop() running at C:\Users\berna\AppData\Local\Programs\Python\Python314\Lib\site-packages\telegram\ext\_utils\networkloop.py:174> wait_for=<Future pending cb=[Task.task_wakeup()]> cb=[Task.task_wakeup()]>
+2025-12-18 01:14:13,208 [INFO] Starting bot...
+2025-12-18 01:14:17,646 [INFO] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-18 01:14:17,647 [INFO] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-18 01:14:17,647 [INFO] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-18 01:14:17,647 [INFO] Polling...
+2025-12-18 01:14:18,086 [INFO] HTTP Request: POST https://api.telegram.org/bot8084223298:AAF0bnTCct6D99FPHul1ezTse5cS7jLQFsM/getMe "HTTP/1.1 200 OK"
+2025-12-18 01:14:18,134 [INFO] HTTP Request: POST https://api.telegram.org/bot8084223298:AAF0bnTCct6D99FPHul1ezTse5cS7jLQFsM/deleteWebhook "HTTP/1.1 200 OK"
+2025-12-18 01:14:18,137 [INFO] Added job "-5068062676" to job store "default"
+2025-12-18 01:14:18,138 [INFO] Added job "-5068062676" to job store "default"
+2025-12-18 01:14:18,138 [INFO] Added job "-5068062676" to job store "default"
+2025-12-18 01:14:18,139 [INFO] Scheduler started
+2025-12-18 01:14:18,139 [INFO] Application started
+2025-12-18 01:14:26,963 [INFO] Shutdown signal received. Exiting cleanly.
+2025-12-18 01:14:28,150 [INFO] Shutdown signal received. Exiting cleanly.
+2025-12-18 01:14:28,151 [INFO] SystemExit called. Bot stopped.
+2025-12-18 01:14:28,151 [INFO] Bot shutdown complete.
+2025-12-18 01:14:28,206 [ERROR] Task was destroyed but it is pending!
+task: <Task pending name='Updater:start_polling:polling_task' coro=<network_retry_loop() done, defined at C:\Users\berna\AppData\Local\Programs\Python\Python314\Lib\site-packages\telegram\ext\_utils\networkloop.py:45> wait_for=<Future pending cb=[Task.task_wakeup()]> cb=[Task.task_wakeup()]>
+2025-12-18 01:14:28,220 [ERROR] Task was destroyed but it is pending!
+task: <Task pending name='Application:8084223298:update_fetcher' coro=<Application._update_fetcher() done, defined at C:\Users\berna\AppData\Local\Programs\Python\Python314\Lib\site-packages\telegram\ext\_application.py:1231> wait_for=<Future cancelled>>
+2025-12-18 01:14:53,355 [INFO] Starting bot...
+2025-12-18 01:14:57,065 [INFO] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-18 01:14:57,066 [INFO] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-18 01:14:57,067 [INFO] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-12-18 01:14:57,067 [INFO] Polling...
+2025-12-18 01:14:57,485 [INFO] HTTP Request: POST https://api.telegram.org/bot8084223298:AAF0bnTCct6D99FPHul1ezTse5cS7jLQFsM/getMe "HTTP/1.1 200 OK"
+2025-12-18 01:14:57,536 [INFO] HTTP Request: POST https://api.telegram.org/bot8084223298:AAF0bnTCct6D99FPHul1ezTse5cS7jLQFsM/deleteWebhook "HTTP/1.1 200 OK"
+2025-12-18 01:14:57,539 [INFO] Added job "-5068062676" to job store "default"
+2025-12-18 01:14:57,540 [INFO] Added job "-5068062676" to job store "default"
+2025-12-18 01:14:57,540 [INFO] Added job "-5068062676" to job store "default"
+2025-12-18 01:14:57,541 [INFO] Scheduler started
+2025-12-18 01:14:57,541 [INFO] Application started
+2025-12-18 01:14:57,691 [INFO] HTTP Request: POST https://api.telegram.org/bot8084223298:AAF0bnTCct6D99FPHul1ezTse5cS7jLQFsM/getUpdates "HTTP/1.1 200 OK"
+2025-12-18 01:14:57,694 [INFO] -----------
+2025-12-18 01:14:57,694 [INFO] 2025-12-18 01:14:57.694637
+2025-12-18 01:14:57,694 [INFO] Twil responsible request.
+2025-12-18 01:14:59,461 [INFO] Cache refreshed.
+2025-12-18 01:14:59,521 [INFO] HTTP Request: POST https://api.telegram.org/bot8084223298:AAF0bnTCct6D99FPHul1ezTse5cS7jLQFsM/sendMessage "HTTP/1.1 200 OK"
+2025-12-18 01:14:59,524 [INFO] TWILRESPONSIBLE : User (-5068062676) in group
+2025-12-18 01:15:12,521 [INFO] HTTP Request: POST https://api.telegram.org/bot8084223298:AAF0bnTCct6D99FPHul1ezTse5cS7jLQFsM/getUpdates "HTTP/1.1 200 OK"
+2025-12-18 01:15:25,572 [INFO] HTTP Request: POST https://api.telegram.org/bot8084223298:AAF0bnTCct6D99FPHul1ezTse5cS7jLQFsM/getUpdates "HTTP/1.1 200 OK"
+2025-12-18 01:15:38,634 [INFO] HTTP Request: POST https://api.telegram.org/bot8084223298:AAF0bnTCct6D99FPHul1ezTse5cS7jLQFsM/getUpdates "HTTP/1.1 200 OK"
+2025-12-18 01:15:41,519 [INFO] Shutdown signal received. Exiting cleanly.
+2025-12-18 01:15:41,692 [INFO] HTTP Request: POST https://api.telegram.org/bot8084223298:AAF0bnTCct6D99FPHul1ezTse5cS7jLQFsM/getUpdates "HTTP/1.1 200 OK"
+2025-12-18 01:15:41,693 [INFO] Application is stopping. This might take a moment.
+2025-12-18 01:15:41,694 [INFO] Scheduler has been shut down
+2025-12-18 01:15:41,711 [INFO] Application.stop() complete
+2025-12-18 01:15:41,714 [INFO] Bot shutdown complete.
