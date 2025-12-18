@@ -19,7 +19,7 @@ start "TelegramBot" /B /D C:\Users\berna\Documents\telegram-bot cmd /c "python .
 
 echo Starting timer >> .\logs\weekend.log
 
-REM --- Wait 7 minutes (300 seconds) ---
+REM --- Wait 7 minutes (420 seconds) ---
 timeout /t 420 /nobreak
 
 REM --- Kill python process ---
