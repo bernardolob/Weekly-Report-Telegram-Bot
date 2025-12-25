@@ -32,15 +32,16 @@ BOT_USERNAME: Final = '@saobernardo_bot'
 
 
 async def main():
+    logging.info("-----------")
     logging.info("Starting one-shot bot...")
+
     app = Application.builder().token(TOKEN).build()
 
     await app.initialize()
     await app.bot.initialize()
 
     await refresh_cache()
-    
-    logging.info("-----------")
+
     logging.info(datetime.now())
     logging.info("Weekly Report message request.")
 
