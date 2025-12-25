@@ -1,9 +1,9 @@
-from datetime import time as dtime
+import asyncio
 from datetime import datetime
 from telegram import Update
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
+from telegram.ext import Application, ContextTypes
 from typing import Final
-from sheetsReader import refresh_cache, getTWILList, getWeeklyReportMessage, getTWILResponsible
+from sheetsReader import refresh_cache, getTWILResponsible
 import sys
 import logging
 
@@ -29,51 +29,34 @@ WHITELIST: list[int] = [-5068062676]
 TOKEN: Final = '8084223298:AAF0bnTCct6D99FPHul1ezTse5cS7jLQFsM'
 BOT_USERNAME: Final = '@saobernardo_bot'
 
-### FUNCTIONS
-
-async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    logging.info("-----------")
-    logging.info(datetime.now())
-    logging.info(f'Update {update} caused error {context.error}')
-
-
-async def sendWarning1(context: ContextTypes.DEFAULT_TYPE):
-    logging.info("-----------")
-    logging.info(datetime.now())
-    logging.info("Second warning message request.")
-    await refresh_cache()
-    chat_id = context.job.chat_id
-    await context.bot.send_message(
-        chat_id=chat_id,
-        text=FIRST_WARNING_MESSAGE.format(twil_responsible=await getTWILResponsible()),
-        disable_web_page_preview=True
-    )
-
 
 ################################ MAIN ################################
 
 
+async def main():
+    logging.info("Starting one-shot bot...")
+    app = Application.builder().token(TOKEN).build()
 
-def main():
-    try:
-        logging.info("Starting bot...")
-        app = Application.builder().token(TOKEN).build()
+    await app.initialize()
+    await app.bot.initialize()
 
-        # Errors
-        app.add_error_handler(error)
+    logging.info("-----------")
+    logging.info(datetime.now())
+    logging.info("First warning message request.")
 
-        # Auto start weekly messages
-        for chat_id in WHITELIST:
-            sendWarning1(app.job_queue, chat_id)
+    await refresh_cache()
+    twil = await getTWILResponsible()
 
-    except SystemExit:
-        logging.info("SystemExit called. Bot stopped.")
-    finally:
-        logging.info("Bot shutdown complete.")
-        sys.exit(0)
+    for chat_id in WHITELIST:
+        await app.bot.send_message(
+            chat_id=chat_id,
+            text=FIRST_WARNING_MESSAGE.format(twil_responsible=twil),
+            disable_web_page_preview=True,
+        )
+
+    logging.info("Messages sent. Shutting down.")
+    await app.shutdown()
 
 
-
-
-if __name__ == '__main__':
-    main()
+if __name__ == "__main__":
+    asyncio.run(main())
