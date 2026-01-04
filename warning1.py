@@ -1,10 +1,8 @@
 import asyncio
 from datetime import datetime
-from telegram import Update
-from telegram.ext import Application, ContextTypes
+from telegram.ext import Application
 from typing import Final
 from sheetsReader import refresh_cache, getTWILResponsible
-import sys
 import logging
 
 logging.basicConfig(
@@ -23,7 +21,8 @@ FIRST_WARNING_MESSAGE: str = """
 
 
 # WHITELIST: list[int] = [-1001279975882, -5068062676]
-WHITELIST: list[int] = [-5068062676]
+WHITELIST: list[int] = [-1001279975882]
+# WHITELIST: list[int] = [-5068062676]
 
 
 TOKEN: Final = '8084223298:AAF0bnTCct6D99FPHul1ezTse5cS7jLQFsM'
