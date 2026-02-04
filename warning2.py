@@ -1,5 +1,6 @@
 import asyncio
 from datetime import datetime
+from telegram import Update
 from telegram.ext import Application
 from typing import Final
 from sheetsReader import refresh_cache, getTWILResponsible

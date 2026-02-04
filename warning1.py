@@ -1,8 +1,10 @@
 import asyncio
 from datetime import datetime
-from telegram.ext import Application
+from telegram import Update
+from telegram.ext import Application, ContextTypes
 from typing import Final
 from sheetsReader import refresh_cache, getTWILResponsible
+import sys
 import logging
 
 logging.basicConfig(

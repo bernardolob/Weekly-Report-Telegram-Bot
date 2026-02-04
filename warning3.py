@@ -40,7 +40,7 @@ async def main():
     await app.bot.initialize()
 
     logging.info(datetime.now())
-    logging.info("Third warning message request.")
+    logging.info("Th warning message request.")
 
     await refresh_cache()
     twil = await getTWILResponsible()
