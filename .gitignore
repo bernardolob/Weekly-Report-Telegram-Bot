@@ -1,0 +1,13 @@
+# Logs
+logs/
+*.log
+
+# Node (if you're using it)
+node_modules/
+
+# Python (if you're using it)
+__pycache__/
+*.pyc
+
+# Env files (very important)
+.env
