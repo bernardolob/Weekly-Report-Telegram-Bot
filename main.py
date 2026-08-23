@@ -1,13 +1,18 @@
 from datetime import time as dtime
 from datetime import datetime
 from telegram import Update
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
+from telegram.ext import Application, CommandHandler, ContextTypes
 from typing import Final
 from timeStructure import TimeStructure
 from sheetsReader import refresh_cache, getTWILList, getWeeklyReportMessage, getTWILResponsible
 import sys
 import signal
 import logging
+import os
+from dotenv import load_dotenv
+
+# Carrega variáveis do ficheiro .env para o ambiente
+load_dotenv()
 
 logging.basicConfig(
     filename="logs/telegrambot.log",
@@ -20,18 +25,37 @@ logging.basicConfig(
 
 ################################ CONSTANTS ################################
 
-
-WHITELIST: list[int] = [-1001279975882, -5068062676]
-# WHITELIST: list[int] = [-5068062676]
-
+WHITELIST: list[int] = [
+    int(chat_id.strip())
+    for chat_id in os.getenv("TELEGRAM_WHITELIST", "").split(",")
+    if chat_id.strip()
+]
 
 # DAYS:    0 - Sunday, 1 - Monday, ...  6 - Saturday
 firstWarningTime  = TimeStructure(12, 00, (0,))
 secondWarningTime = TimeStructure(21, 00, (0,))
 WeeklyReportTime  = TimeStructure( 8, 00, (1,))
 
-TOKEN: Final = '8084223298:AAF0bnTCct6D99FPHul1ezTse5cS7jLQFsM'
-BOT_USERNAME: Final = '@saobernardo_bot'
+TOKEN: Final = os.getenv("TELEGRAM_TOKEN")
+if not TOKEN:
+    raise RuntimeError(
+        "TELEGRAM_TOKEN não definido. Cria um ficheiro .env (ver .env.example) "
+        "com a variável TELEGRAM_TOKEN=..."
+    )
+
+BOT_USERNAME: Final = os.getenv("BOT_USERNAME")
+if not BOT_USERNAME:
+    raise RuntimeError(
+        "BOT_USERNAME não definido. Cria um ficheiro .env (ver .env.example) "
+        "com a variável BOT_USERNAME=..."
+    )
+
+FORMS_LINK: Final = os.getenv("FORMS_LINK")
+if not FORMS_LINK:
+    raise RuntimeError(
+        "FORMS_LINK não definido. Cria um ficheiro .env (ver .env.example) "
+        "com a variável FORMS_LINK=..."
+    )
 
 START_WR_MESSAGE: str = f"""
 <b>✅ As mensagens semanais estão ligadas.
@@ -45,14 +69,14 @@ FIRST_WARNING_MESSAGE: str = """
 📣 #WeeklyReport time!
 🕙 Deadline: 23:59 WEST
 💡 TWIL Reminder: {twil_responsible}
-🔗 Link: https://forms.gle/XkYLXHCKF9HEur6s9
+🔗 Link: {forms_link}
 """
 
 SECOND_WARNING_MESSAGE: str = """
 🚨 #WeeklyReport last call!
 ⏳ Few hours left!
 💡 TWIL Reminder: {twil_responsible}
-🔗 Link: https://forms.gle/XkYLXHCKF9HEur6s9
+🔗 Link: {forms_link}
 """
 
 TWIL_RESPONSIBLE_MESSAGE: str = """
@@ -137,7 +161,10 @@ async def firstWarning_message(context: ContextTypes.DEFAULT_TYPE):
     chat_id = context.job.chat_id
     await context.bot.send_message(
         chat_id=chat_id,
-        text=FIRST_WARNING_MESSAGE.format(twil_responsible=await getTWILResponsible()),
+        text=FIRST_WARNING_MESSAGE.format(
+            twil_responsible=await getTWILResponsible(),
+            forms_link=FORMS_LINK
+        ),
         disable_web_page_preview=True
     )
 
@@ -151,7 +178,10 @@ async def secondWarning_message(context: ContextTypes.DEFAULT_TYPE):
     chat_id = context.job.chat_id
     await context.bot.send_message(
         chat_id=chat_id,
-        text=SECOND_WARNING_MESSAGE.format(twil_responsible=await getTWILResponsible()),
+        text=SECOND_WARNING_MESSAGE.format(
+            twil_responsible=await getTWILResponsible(),
+            forms_link=FORMS_LINK
+        ),
         disable_web_page_preview=True
     )
 
@@ -302,37 +332,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
-
-
-
-
-
-# Responses
-# def handle_response(text: str) -> str:
-#     if 'olá' in text.lower() or 'ola' in text.lower():
-#         return 'Olá, estudo bem?'
-#     else :
-#         return 'Não percebi o que disse... mas sabia que São Bernardo era de Claraval? :)'
-
-
-
-# async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-#     messageType: str = update.message.chat.type
-#     text: str = update.message.text
-#     logging.info(f'User ({update.message.chat.id}) in {messageType}')
-
-#     if messageType == 'group':
-#         if BOT_USERNAME in update.message.text:
-#             newText: str = text.replace(BOT_USERNAME, '').strip()
-#             response: str = handle_response(newText)
-#             await update.message.reply_text(response)
-#         else:
-#             return
-#     else:
-#         response: str = handle_response(text)
-#         await update.message.reply_text(response)
-#     logging.info('bot: ', response)
-

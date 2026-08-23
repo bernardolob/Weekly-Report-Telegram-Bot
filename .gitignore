@@ -1,13 +1,17 @@
+# Secrets - nunca commitar
+.env
+secrets/
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+
 # Logs
 logs/
 *.log
 
-# Node (if you're using it)
-node_modules/
-
-# Python (if you're using it)
+# Python
 __pycache__/
 *.pyc
-
-# Env files (very important)
-.env
+.venv/
+venv/

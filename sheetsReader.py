@@ -1,14 +1,25 @@
-
+import os
 import gspread
 from google.oauth2.service_account import Credentials
+from dotenv import load_dotenv
+
+# Carrega variáveis do ficheiro .env para o ambiente
+load_dotenv()
 
 cached_WR_message = None
 cached_TWIL_responsible = None
 cached_TWIL_list = None
 
-# Path to your JSON key file
+# Caminho para o JSON da service account, vindo do .env
+CREDS_PATH = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+if not CREDS_PATH:
+    raise RuntimeError(
+        "GOOGLE_APPLICATION_CREDENTIALS não definido. Cria um ficheiro .env "
+        "(ver .env.example) com o caminho para o JSON da service account."
+    )
+
 creds = Credentials.from_service_account_file(
-    "weekly-report-479321-b6d25eb4b256.json",
+    CREDS_PATH,
     scopes=[
         "https://www.googleapis.com/auth/spreadsheets",
         "https://www.googleapis.com/auth/drive"
@@ -41,5 +52,3 @@ async def getTWILResponsible():
 
 async def getTWILList():
     return cached_TWIL_list
-
-

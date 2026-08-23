@@ -6,6 +6,11 @@ from typing import Final
 from sheetsReader import refresh_cache, getTWILResponsible
 import sys
 import logging
+import os
+from dotenv import load_dotenv
+
+# Carrega variáveis do ficheiro .env para o ambiente
+load_dotenv()
 
 logging.basicConfig(
     filename="logs/telegrambot.log",
@@ -18,18 +23,35 @@ FIRST_WARNING_MESSAGE: str = """
 📣 #WeeklyReport time!
 🕙 Deadline: 23:59 WEST
 💡 TWIL Reminder: {twil_responsible}
-🔗 Link: https://forms.gle/XkYLXHCKF9HEur6s9
+🔗 Link: {forms_link}
 """
 
+WHITELIST: list[int] = [
+    int(chat_id.strip())
+    for chat_id in os.getenv("TELEGRAM_WHITELIST", "").split(",")
+    if chat_id.strip()
+]
 
-# WHITELIST: list[int] = [-1001279975882, -5068062676]
-WHITELIST: list[int] = [-1001279975882]
-# WHITELIST: list[int] = [-5068062676]
+TOKEN: Final = os.getenv("TELEGRAM_TOKEN")
+if not TOKEN:
+    raise RuntimeError(
+        "TELEGRAM_TOKEN não definido. Cria um ficheiro .env (ver .env.example) "
+        "com a variável TELEGRAM_TOKEN=..."
+    )
 
+BOT_USERNAME: Final = os.getenv("BOT_USERNAME")
+if not BOT_USERNAME:
+    raise RuntimeError(
+        "BOT_USERNAME não definido. Cria um ficheiro .env (ver .env.example) "
+        "com a variável BOT_USERNAME=..."
+    )
 
-TOKEN: Final = '8084223298:AAF0bnTCct6D99FPHul1ezTse5cS7jLQFsM'
-BOT_USERNAME: Final = '@saobernardo_bot'
-
+FORMS_LINK: Final = os.getenv("FORMS_LINK")
+if not FORMS_LINK:
+    raise RuntimeError(
+        "FORMS_LINK não definido. Cria um ficheiro .env (ver .env.example) "
+        "com a variável FORMS_LINK=..."
+    )
 
 ################################ MAIN ################################
 
@@ -52,7 +74,7 @@ async def main():
     for chat_id in WHITELIST:
         await app.bot.send_message(
             chat_id=chat_id,
-            text=FIRST_WARNING_MESSAGE.format(twil_responsible=twil),
+            text=FIRST_WARNING_MESSAGE.format(twil_responsible=twil, forms_link=FORMS_LINK),
             disable_web_page_preview=True,
         )
 
