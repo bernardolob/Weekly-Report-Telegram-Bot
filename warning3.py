@@ -70,7 +70,7 @@ async def main():
     for chat_id in WHITELIST:
         await app.bot.send_message(
             chat_id=chat_id,
-            text=SECOND_WARNING_MESSAGE.format(twil_responsible=twil),
+            text=SECOND_WARNING_MESSAGE.format(twil_responsible=twil, forms_link=FORMS_LINK),
             disable_web_page_preview=True,
         )
 
