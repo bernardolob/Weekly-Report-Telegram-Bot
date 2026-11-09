@@ -53,7 +53,8 @@ def splitHtmlMessage(text: str, limit: int = MAX_MESSAGE_LENGTH) -> list[str]:
 
 
 async def sendLongHtmlMessage(bot, chat_id, text, pin=False) -> bool:
-    # Sends a (possibly long) HTML message in several parts. Pins the first part.
+    # Sends a (possibly long) HTML message in several parts. Pins the first part only
+    # after every part is sent, so the pin notice appears below the whole message.
     # Returns False and logs Telegram's error description if anything fails.
     if not text:
         logging.error(f"Message for chat {chat_id} is empty (cache refresh failed?). Nothing sent.")
@@ -64,15 +65,16 @@ async def sendLongHtmlMessage(bot, chat_id, text, pin=False) -> bool:
         logging.info(f"Message has {visibleLength(text)} characters. Sending in {len(chunks)} parts.")
 
     try:
-        for i, chunk in enumerate(chunks):
-            msg = await bot.send_message(
+        sentMessages = []
+        for chunk in chunks:
+            sentMessages.append(await bot.send_message(
                 chat_id=chat_id,
                 text=chunk,
                 disable_web_page_preview=True,
                 parse_mode="HTML"
-            )
-            if pin and i == 0:
-                await msg.pin()
+            ))
+        if pin:
+            await sentMessages[0].pin()
     except TelegramError as e:
         logging.error(f"Failed to send message to chat {chat_id}: {e}")
         return False
