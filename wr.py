@@ -4,6 +4,7 @@ from telegram import Update
 from telegram.ext import Application, ContextTypes
 from typing import Final
 from sheetsReader import refresh_cache, getTWILResponsible, getWeeklyReportMessage
+from messageSender import sendLongHtmlMessage
 import logging
 import os
 from dotenv import load_dotenv
@@ -16,6 +17,8 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
 )
+# httpx logs every request URL at INFO, and those URLs contain the bot token
+logging.getLogger("httpx").setLevel(logging.WARNING)
 
 
 SECOND_WARNING_MESSAGE: str = """
@@ -70,16 +73,12 @@ async def main():
     logging.info(datetime.now())
     logging.info("Weekly Report message request.")
 
+    allSent = True
     for chat_id in WHITELIST:
-        msg = await app.bot.send_message(
-            chat_id=chat_id,
-            text=await getWeeklyReportMessage(),
-            disable_web_page_preview=True,
-            parse_mode="HTML"
-        )
-        await msg.pin()
+        sent = await sendLongHtmlMessage(app.bot, chat_id, await getWeeklyReportMessage(), pin=True)
+        allSent = allSent and sent
 
-    logging.info("Messages sent. Shutting down.")
+    logging.info("Messages sent. Shutting down." if allSent else "Some messages failed. Shutting down.")
     await app.shutdown()
 
 

@@ -5,6 +5,7 @@ from telegram.ext import Application, CommandHandler, ContextTypes
 from typing import Final
 from timeStructure import TimeStructure
 from sheetsReader import refresh_cache, getTWILList, getWeeklyReportMessage, getTWILResponsible
+from messageSender import sendLongHtmlMessage
 import sys
 import signal
 import logging
@@ -19,6 +20,8 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
 )
+# httpx logs every request URL at INFO, and those URLs contain the bot token
+logging.getLogger("httpx").setLevel(logging.WARNING)
 
 
 
@@ -195,13 +198,7 @@ async def WR_message(context: ContextTypes.DEFAULT_TYPE, manual_chat_id=None):
 
     chat_id = manual_chat_id or context.job.chat_id
 
-    msg = await context.bot.send_message(
-        chat_id=chat_id,
-        text=await getWeeklyReportMessage(),
-        disable_web_page_preview=True,
-        parse_mode="HTML"
-    )
-    await msg.pin()
+    await sendLongHtmlMessage(context.bot, chat_id, await getWeeklyReportMessage(), pin=True)
 
 
 
